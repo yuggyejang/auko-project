@@ -44,7 +44,7 @@ class Validation
     //임재범 회원가입
     //규칙
     public $signup = [
-        'USER_ID'       =>  [
+        'user_id'       =>  [
             'rules'         =>  'required|alpha_numeric|min_length[5]|max_length[20]',
             'errors'        =>  [
                 'required'      =>  '아이디를 입력해야 합니다.',
@@ -54,7 +54,7 @@ class Validation
             ]
 
         ],
-        'PW'            =>  [
+        'pw'            =>  [
             'rules'         =>  'required|min_length[5]|max_length[20]',
             'errors'        =>  [
                 'required'      =>  '비밀번호를 입력해야 합니다.',
@@ -62,20 +62,20 @@ class Validation
                 'max_length'    =>  '20 글자 이하로 이루어져야 합니다.'
             ]
         ],
-        'NAME'          =>  [
+        'name'          =>  [
             'rules'         =>  'required|max_length[50]',
             'errors'        =>  [
                 'required'      =>  '이름을 입력해야 합니다.',
                 'max_length'    =>  '50 글자 이하로 이루어져야 합니다.'
             ]
         ],
-        'COUNTRY_CD'    =>  [
+        'ctn_cd'    =>  [
             'rules'         =>  'required',
             'errors'        =>  [
                 'required'      =>  '국적을 선택해야 합니다.'
             ]
         ],
-        'EMAIL'         =>  [
+        'email'         =>  [
             'rules'         =>  'required|max_length[45]|valid_email',
             'errors'        =>  [
                 'required'      =>  '이메일을 입력해야 합니다.',
@@ -83,17 +83,32 @@ class Validation
                 'valid_email'   =>  '유효한 이메일 주소를 입력해야 합니다.'
             ]
         ],
-        'BIRTH'         =>  [
+        'birth'         =>  [
             'rules'         =>  'required',
             'errors'        =>  [
                 'required'      =>  '생일을 입력해야 합니다.'
             ]
         ],
-        'GENDER'        =>  [
+        'gender'        =>  [
             'rules'         =>  'required',
             'errors'        =>  [
                 'required'      =>  '성별을 입력해야 합니다.'
             ]
         ],
+    ];
+
+    public $login = [
+        'user_id'        =>  [
+            'rules'         =>  'required',
+            'errors'        =>  [
+                'required'      =>  '아이디를 입력해야 합니다.'
+            ]
+        ],
+        'pw'        =>  [
+            'rules'         =>  'required',
+            'errors'        =>  [
+                'required'      =>  '비밀번호를 입력해야 합니다.'
+            ]
+            ],
     ];
 }

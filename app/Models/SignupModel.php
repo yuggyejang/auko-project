@@ -9,7 +9,7 @@ use App\Models\Sqlsrv\SqlsrvModel;
 
 class SignupModel extends SqlsrvModel
 {
-    public function setSignup(array $data = []){
+    public function set_signup($data){
         
         $query = "
                     INSERT  INTO    dbo.USERS
@@ -23,10 +23,12 @@ class SignupModel extends SqlsrvModel
                                     GENDER,
                                     REG_DT,
                                     USE_YN,
-                                    ADMIN_YN
+                                    ADMIN_YN,
+                                    LANGUAGE
                                     ) 
                     VALUES 
                                     (
+                                    ?,
                                     ?,
                                     ?,
                                     ?,
@@ -42,7 +44,7 @@ class SignupModel extends SqlsrvModel
 
         sqlsrv_query($this->dbconn, $query, $data);
 
-        return;
+        return ['status' => 'success'];
     }
 
 }

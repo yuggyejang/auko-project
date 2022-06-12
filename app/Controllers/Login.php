@@ -1,69 +1,98 @@
 <?php
-
 namespace App\Controllers;
-use App\Models\LoginModel;
 
-class Login extends BaseController
+use CodeIgniter\RESTful\ResourceController;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+use Psr\Log\LoggerInterface;
+
+class Login extends ResourceController
 {
-    public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
-	{
-        parent::initController($request, $response, $logger);
-        $this->encrypter = \Config\Services::encrypter();
-	}
+    protected $modelName = 'App\Models\LoginModel';
+    protected $format = 'json';
+    protected $session;
 
-    public function index(){
-        return view('Login/login');
+    //생성자
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    {
+        parent::initController($request, $response, $logger);
+        $this->session = \Config\Services::session();
     }
 
-    public function act(){
-        $id = $this->request->getPost('id');
+    public function index()
+    {
+        // 테스트용
+        echo view('Login/login');
+    }
+
+    //메소드 1-로그인
+    //POST
+    // "user_id" : "thisisid", "pw" : "password"
+    public function login()
+    {
+        $id = $this->request->getPost('user_id');
         $pw = $this->request->getPost('pw');
-        // $secret = $this->encrypter->encrypt($pw);   // 암호화
-        // $return_url = trim($this->request->getPost('return_url'));
+        $result = $this->do_login($id, $pw);
+        echo $this->validator->listErrors();
+        return $this->respond($result);
+    }
 
-        // echo $secret;
+    //메소드 2-로그아웃
+    public function logout()
+    {
+        $this->do_logout();
+    }
 
-        if($id == null || $pw == null){
-            $this->session->setFlashdata('error', '아이디 혹은 패스워드를 입력해주세요');
-            $this->response->redirect('/Login');    // 폼으로 이동
-            return false;
-        }
+    //로그인
+    public function do_login($id, $pw)
+    {
+        if ($this->validate('login'))
+        {
+            $login_data = $this->model->get_login($id);
 
-        $this->model = new LoginModel;
-        $login_data = $this->model->LoginCheck($id, $pw);
-
-        if(!empty($login_data)) {
-
-            $user_data = array(
-                "ID" => $login_data['USER_ID'],
-                "NAME" => $login_data['NAME'],
-                "CNT_CD" => $login_data['COUNTRY_CD'],
-                "EMAIL" => $login_data['EMAIL'],
-                "BIRTH" => $login_data['BIRTH'],
-                "GENDER" => $login_data['GENDER'],
-                "ADMIN" => $login_data['ADMIN_YN'],
-                "LOGIN" => TRUE
-            );
-
-            $this->session->set($user_data);
-
-            //로그인 성공시 보내질곳...
-            $this->response->redirect('/Home');
+            if(password_verify($pw,$login_data['PW'])) 
+            {
+                $user_data = array(
+                    'user_id'   =>  $login_data['USER_ID'],
+                    'name'      =>  $login_data['NAME'],
+                    'cnt_cd'    =>  $login_data['COUNTRY_CD'],
+                    'email'     =>  $login_data['EMAIL'],
+                    'birth'     =>  $login_data['BIRTH'],
+                    'gender'    =>  $login_data['GENDER'],
+                    'admin'     =>  $login_data['ADMIN_YN'],
+                    'language'  =>  $login_data['LANGUAGE'],
+                    'login'     =>  TRUE,
+                );
+    
+                $this->session->set($user_data);
+                return ['status' => 'success'];                         //성공
+            }
+            else
+            {
+                // 로그인 실패
+                return ['status' => 'loginfail'];                       //로그인 실패
+            }
         }
         else
         {
-            // 로그인 실패
-            $this->session->setFlashdata('validation_error', '로그인에 실패했습니다.');
-            $this->response->redirect('/Login');    // 폼으로 이동
+            return ['status' => 'validatefail'];                      //폼 검증 실패
         }
-        
     }
 
-    public function logout(){
-        // 로그아웃 일단은 로그인 폼으로 이동
-        $this->session->destroy();
-        $this->response->redirect('/Login');
+    //로그아웃
+    public function do_logout()
+    {
+        $array_items = [
+            'user_id', 
+            'name', 
+            'cnt_cd', 
+            'email', 
+            'birth', 
+            'gender', 
+            'admin', 
+            'language', 
+            'login'
+        ];
+        $this->session->remove($array_items);
     }
-
-
 }

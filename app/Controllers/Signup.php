@@ -1,46 +1,60 @@
 <?php
-/**
- * Signup 리퀘스트 처리를 위한 컨트롤러
- */
 namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+use Psr\Log\LoggerInterface;
 
 class Signup extends ResourceController
 {
     protected $modelName = 'App\Models\SignupModel';
     protected $format = 'json';
 
-
-    public function index(){
-        return view('Login/signup');
+    //생성자
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    {
+        parent::initController($request, $response, $logger);
     }
 
-    public function post_signup(){
-        $this->encrypter = \Config\Services::encrypter();
-        
-        if ($this->validate('signup')){
-            $this->model->setSignup([
-                $this->request->getPost('USER_ID'),
-                $this->encrypter->encrypt($this->request->getPost('PW')),
-                $this->request->getPost('NAME'),
-                $this->request->getPost('COUNTRY_CD'),
-                $this->request->getPost('EMAIL'),
-                $this->request->getPost('BIRTH'),
-                $this->request->getPost('GENDER'),
+    public function index()
+    {
+        // 테스트용
+        echo view('Login/signup');
+    }
+
+    // 메소드 1-회원가입
+    // POST
+    // "user_id" : "me", "pw" : "password"...
+    public function signup()
+    {
+        $result = $this->create_signup();
+        return $this->respond($result);
+    }
+
+    //회원가입
+    public function create_signup()
+    {
+        if ($this->validate('signup'))
+        {
+            return $this->model->set_signup([
+                $this->request->getPost('user_id'),
+                password_hash($this->request->getPost('pw'), PASSWORD_DEFAULT),
+                $this->request->getPost('name'),
+                $this->request->getPost('ctn_cd'),
+                $this->request->getPost('email'),
+                $this->request->getPost('birth'),
+                $this->request->getPost('gender'),
                 Time::today('Asia/Seoul', 'ko_KR'),
                 'Y',
-                'N'
+                'N',
+                $this->request->getPost('ctn_cd')                       //언어설정
             ]);
-            echo 'success';
+        } 
+        else 
+        {
+            return ['status' => 'validatefail'];
         }
-        else{
-            echo 'error';
-        }
-
-
-
-
     }
 }

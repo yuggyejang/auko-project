@@ -9,12 +9,6 @@ use CodeIgniter\Model;
 
 class SqlsrvModel extends Model             //Model이 BaseModel를 상속받아서 Model를 사용하였습니다
 {
-    /**
-     *  sqlsrv connect
-     * 
-     *  @var connection resource. 
-     *  If a connection cannot be successfully opened, false is returned.
-     */
     protected $dbconn;  
     
     

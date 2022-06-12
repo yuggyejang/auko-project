@@ -15,8 +15,12 @@ class Best extends ResourceController
 
     public function index()
     {
-        $best_data = $this->model->getBest();
+        act();
+    }
 
-        return $this->respond($best_data);
+    public function act(){
+        $read_data = $this->model->read();
+
+        return $this->respond($read_data);
     }
 }

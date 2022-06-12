@@ -1,16 +1,15 @@
 <?php
 /**
- * Best 응답을 위한 모델
- * 0508 임재범
+ * 
  */
 
 namespace App\Models;
 
 use App\Models\Sqlsrv\SqlsrvModel;
 
-class BestModel extends SqlsrvModel
+class BoardModel extends SqlsrvModel
 {
-    public function read(){                                                                  //현재 최다 추천수 게시물 갯수가 6개로 고정되있음
+    public function read($board_id){
         
         $query = "
                     SELECT  TOP 6

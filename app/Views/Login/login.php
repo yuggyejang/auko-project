@@ -14,10 +14,10 @@
             $this->session = \Config\Services::session(); 
             echo '<label>'.$this->session->getFlashdata('validation_error').'</label>';  
         ?>  
-        <form method="post" accept-charset="utf-8" action="/Login/act">  
+        <form method="post" accept-charset="utf-8" action="/Login/login">  
                 <div>  
                     <label>아이디</label>  
-                    <input type="text" name="id"/>
+                    <input type="text" name="user_id"/>
                 </div>  
 
                 <div>  

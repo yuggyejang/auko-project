@@ -10,40 +10,40 @@
     <div>  
         <h3>회원가입 폼</h3>
         <br />
-        <form method="post" accept-charset="utf-8" action="/Signup/post_signup">  
+        <form method="post" accept-charset="utf-8" action="/Signup/signup">  
                 <div>  
                     <label>아이디</label>  
-                    <input type="text" name="USER_ID"/>
+                    <input type="text" name="user_id"/>
                 </div>  
 
                 <div>  
                     <label>비밀번호</label>  
-                    <input type="password" name="PW"/>
+                    <input type="password" name="pw"/>
                 </div> 
 
                 <div>  
                     <label>이름</label>  
-                    <input type="text" name="NAME"/>
+                    <input type="text" name="name"/>
                 </div> 
 
                 <div>  
                     <label>국가코드</label>  
-                    <input type="text" name="COUNTRY_CD"/>
+                    <input type="text" name="ctn_cd"/>
                 </div> 
 
                 <div>  
                     <label>이메일</label>  
-                    <input type="text" name="EMAIL"/>
+                    <input type="text" name="email"/>
                 </div> 
 
                 <div>  
                     <label>생일</label>  
-                    <input type="text" name="BIRTH"/>
+                    <input type="text" name="birth"/>
                 </div> 
 
                 <div>  
                     <label>성별</label>  
-                    <input type="text" name="GENDER"/>
+                    <input type="text" name="gender"/>
                 </div> 
 
                 <div>  
