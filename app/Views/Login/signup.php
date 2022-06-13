@@ -1,55 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
+
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
     <title>회원가입</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
 </head>
-<body>
-    <div>  
-        <h3>회원가입 폼</h3>
-        <br />
-        <form method="post" accept-charset="utf-8" action="/Signup/signup">  
-                <div>  
-                    <label>아이디</label>  
-                    <input type="text" name="user_id"/>
-                </div>  
 
-                <div>  
-                    <label>비밀번호</label>  
-                    <input type="password" name="pw"/>
-                </div> 
+<body class="bg-gradient-primary">
 
-                <div>  
-                    <label>이름</label>  
-                    <input type="text" name="name"/>
-                </div> 
+    <div class="container col-xl-3 col-lg-5 col-md-5">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-12 col-xl-12">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4" style="font-weight:bold;">회원가입</h1>
+                            </div>
+                            <form class="user" method="post" accept-charset="utf-8" action="/Signup/signup">
+                                
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" name="user_id"
+                                        placeholder="아이디">
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control form-control-user" name="email"
+                                        placeholder="이메일">
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" class="form-control form-control-user"
+                                            name="pw" placeholder="비밀번호">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="password" class="form-control form-control-user"
+                                            name="r_pw" placeholder="비밀번호 재확인">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" name="name"
+                                            placeholder="이름">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user" name="gender"
+                                            placeholder="성별">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user"
+                                            name="ctn_cd" placeholder="국적">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="date" class="form-control form-control-user"
+                                            name="birth">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                    회원 가입
+                                </button>
+                                <hr>
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="Login">이미 계정이 있으신가요? 로그인</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <div>  
-                    <label>국가코드</label>  
-                    <input type="text" name="ctn_cd"/>
-                </div> 
+    </div>
 
-                <div>  
-                    <label>이메일</label>  
-                    <input type="text" name="email"/>
-                </div> 
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-                <div>  
-                    <label>생일</label>  
-                    <input type="text" name="birth"/>
-                </div> 
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-                <div>  
-                    <label>성별</label>  
-                    <input type="text" name="gender"/>
-                </div> 
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
 
-                <div>  
-                    <button type="submit">회원가입</button>
-                </div>  
-        </form>  
-    </div> 
 </body>
+
 </html>

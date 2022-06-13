@@ -22,7 +22,7 @@ class Login extends ResourceController
     public function index()
     {
         // 테스트용
-        echo view('Login/login');
+        return view('/Login/login');
     }
 
     //메소드 1-로그인
@@ -30,17 +30,37 @@ class Login extends ResourceController
     // "user_id" : "thisisid", "pw" : "password"
     public function login()
     {
+        /*
+        $user_data = array(
+            'user_id'   =>  'myengji2022',
+            'alarm'     =>  
+            [
+                'day'   =>  '22/06/12',
+                'text'  =>  '어코에 회원가입하신 것을 환영합니다'
+            ]
+        );
+
+        $this->session->set($user_data);
+        return view('/Home/home');
+        */
         $id = $this->request->getPost('user_id');
         $pw = $this->request->getPost('pw');
         $result = $this->do_login($id, $pw);
-        echo $this->validator->listErrors();
-        return $this->respond($result);
+        if ($result['status'] == 'success')
+        {
+            $this->response->redirect('/Home');
+        }
+        else
+        {
+            $this->response->redirect('/Login');
+        }
     }
 
     //메소드 2-로그아웃
     public function logout()
     {
         $this->do_logout();
+        $this->response->redirect('/Home');
     }
 
     //로그인
@@ -50,7 +70,7 @@ class Login extends ResourceController
         {
             $login_data = $this->model->get_login($id);
 
-            if(password_verify($pw,$login_data['PW'])) 
+            if($login_data != null && password_verify($pw,$login_data['PW'])) 
             {
                 $user_data = array(
                     'user_id'   =>  $login_data['USER_ID'],
@@ -62,6 +82,20 @@ class Login extends ResourceController
                     'admin'     =>  $login_data['ADMIN_YN'],
                     'language'  =>  $login_data['LANGUAGE'],
                     'login'     =>  TRUE,
+                    'alarm'     =>  
+                                    [
+                                        [
+                                            'day'   =>  '22/06/12',
+                                            'text'  =>  '어코에 회원가입하신 것을 환영합니다'
+                                        ]
+                                    ],
+                    'message'   =>  [   
+                                            [
+                                                'user'  =>  '관리자',
+                                                'day'   =>  '22/06/12',
+                                                'text'  =>  '어코에 회원가입하신 것을 환영합니다'
+                                            ]
+                                    ]
                 );
     
                 $this->session->set($user_data);
@@ -82,17 +116,21 @@ class Login extends ResourceController
     //로그아웃
     public function do_logout()
     {
-        $array_items = [
-            'user_id', 
-            'name', 
-            'cnt_cd', 
-            'email', 
-            'birth', 
-            'gender', 
-            'admin', 
-            'language', 
-            'login'
+        $array_items = 
+        [
+            'user_id',
+            'name',
+            'cnt_cd',
+            'email',
+            'birth',
+            'gender',
+            'admin',
+            'language',
+            'login',
+            'alarm',
+            'message'
         ];
         $this->session->remove($array_items);
+        //$this->session->destroy();
     }
 }

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Blank</title>
+    <title>어서와 코리아</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -26,7 +26,6 @@
 </head>
 
 <body id="page-top">
-
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -49,7 +48,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">글 작성</h1>
+                    <?php echo '<h1 class="h3 mb-4 text-gray-800">인기 게시판</h1>' ?>
 
                     <div class="row">
                         <div class="col-md-12">
@@ -73,28 +72,40 @@
                                 </div> -->
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                <form class="user" method="post" accept-charset="utf-8" action="/Signup/signup">
-                                    <div class="mb-3 row">
-                                        <label for="staticEmail" class="col-sm-1 col-form-label">제목</label>
-                                        <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="post_title" >
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <div class="col-sm-12">
-                                            <div id="summernote" name="post_content">Hello Summernote</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-12" style="text-align:end">
-                                            <button type="button" class="btn btn-secondary mr-1"><a class="text-light" href="/Home">취소</a></button>
-                                            <button type="submit" class="btn btn-primary"><a class="text-light" href="/Post">등록</a></button>
-                                        </div>  
-                                    </div>
-                                </form>
-
+                                   <table id="board-list" class="table table-borderd">
+                                       <thead>
+                                           <tr>
+                                               <th>번호</th>
+                                               <th>제목</th>
+                                               <th>글쓴이</th>
+                                               <th>작성일</th>
+                                               <th>조회</th>
+                                               <th>추천</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                        <?php
+                                            foreach($_SESSION['post_id'] as $data)
+                                            {
+                                                if (20 < $data['like'])
+                                                {
+                                                    echo
+                                                    '
+                                                    <tr>
+                                                        <td>'.$data['id'].'</td>
+                                                        <td><a href="/Board/view/best/'.$data['id'].'">'.$data['title'].'</a></td>
+                                                        <td>'.$data['author'].'</td>
+                                                        <td>'.$data['date'].'</td>
+                                                        <td>'.$data['see'].'</td>
+                                                        <td>'.$data['like'].'</td>
+                                                    </tr>
+                                                    ';
+                                                }
+                                            }
+                                        ?>
+                                        </tbody>
+                                   </table>
                                 </div>
                             </div>
 
@@ -129,25 +140,6 @@
     </a>
 
     <!-- Logout Modal-->
-    <!-- <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- Logout Modal-->
     <?php echo view('/Login/logout.php');?>
 
     <!-- Bootstrap core JavaScript-->
@@ -160,20 +152,17 @@
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
 
-    <!-- include summernote css/js -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-
+    <!-- 데이터테이블 -->
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
 </body>
 
 <script>
+    $('#board-list').DataTable();
 
-    $(document).ready(function() {
-        $('#summernote').summernote({
-            minHeight: 300, 
-        });
-    });
+
+    $('#board-list_filter').addClass('d-flex')
+    $('#board-list_filter').css('align-items', 'baseline')
 </script>
 
 </html>

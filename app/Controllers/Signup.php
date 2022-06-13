@@ -11,17 +11,19 @@ class Signup extends ResourceController
 {
     protected $modelName = 'App\Models\SignupModel';
     protected $format = 'json';
+    protected $validation;
 
     //생성자
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         parent::initController($request, $response, $logger);
+        $this->validation =  \Config\Services::validation();
     }
 
     public function index()
     {
         // 테스트용
-        echo view('Login/signup');
+        return view('Login/signup');
     }
 
     // 메소드 1-회원가입
@@ -30,7 +32,15 @@ class Signup extends ResourceController
     public function signup()
     {
         $result = $this->create_signup();
-        return $this->respond($result);
+        if ($result['status'] == 'success')
+        {
+            $this->response->redirect('/Login');
+            return view('Login/login');
+        }
+        else
+        {
+            $this->response->redirect('/Signup');
+        }
     }
 
     //회원가입
@@ -54,7 +64,7 @@ class Signup extends ResourceController
         } 
         else 
         {
-            return ['status' => 'validatefail'];
+            return ['status' => $this->validation->getErrors()];
         }
     }
 }
